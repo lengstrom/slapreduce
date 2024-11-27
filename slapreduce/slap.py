@@ -1,7 +1,6 @@
 import submitit
 import os
 import json
-import time
 import sys
 from pathlib import Path
 import shutil
@@ -161,3 +160,32 @@ def collect(dired_out, strict=False, warn=True, with_paths=False):
             yield kw, ret
         else:
             yield job_path, kw, ret
+
+if __name__ == '__main__':
+    xs = range(10)
+    fn = lambda x: {'wow':x ** 2}
+
+    dired_out = Path('/mnt/xfs/home/engstrom/scratch/slapreduce_test')
+    if not dired_out.exists():
+        dired_out.mkdir()
+
+    # define args
+    gres = {
+        'exclude': r'deep-chungus-[1-6]',
+        'gres': 'gpu:a100:1',
+        'cpus_per_task':2,
+        'nodes': 1,
+    }
+
+    partition = 'background'
+    job_name = 'slapreduce_test_v0'
+
+    # "map"
+    slap(fn, [{'x': x} for x in xs], dired_out, gres, partition, job_name)
+
+
+    # "reduce"
+    for kw, ret in collect(dired_out):
+        print(kw, ret)
+
+    shutil.rmtree(dired_out)
