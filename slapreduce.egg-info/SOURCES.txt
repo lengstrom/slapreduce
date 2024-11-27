@@ -1,0 +1,7 @@
+README.md
+setup.py
+slapreduce/slap.py
+slapreduce.egg-info/PKG-INFO
+slapreduce.egg-info/SOURCES.txt
+slapreduce.egg-info/dependency_links.txt
+slapreduce.egg-info/top_level.txt
