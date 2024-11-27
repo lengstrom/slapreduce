@@ -65,6 +65,10 @@ def slap(*args, **kwargs):
     if 'DRY_RUN' in os.environ:
         kwargs['dry_run'] = get_env_value('DRY_RUN', is_bool=True)
 
+    if 'SLAP_TIMEOUT_DAYS' in os.environ:
+        val = int(get_env_value('SLAP_TIMEOUT_DAYS', is_bool=False))
+        kwargs['timeout_days'] = val
+
     base_slap(*args, **kwargs)
 
 def base_slap(f, xs, dired_out, gres, *, partition, job_name, dry_run=False,
