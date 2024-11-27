@@ -1,0 +1,3 @@
+# slapreduce
+
+mapreduce for slurm
