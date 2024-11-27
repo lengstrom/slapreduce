@@ -1,4 +1,5 @@
 import submitit
+import time
 import os
 import json
 import sys
@@ -71,7 +72,7 @@ def slap(*args, **kwargs):
     base_slap(*args, **kwargs)
 
 def base_slap(f, xs, dired_out, gres, *, partition, job_name, dry_run=False,
-              debug=False, maxjobs=1000, block=True, timeout_days=3):
+              debug=False, maxjobs=1000, block=False, timeout_days=3):
     '''
     f: callable that you want to serialize on cluster. can return anything.
     xs: list of args, kwargs for f
@@ -84,9 +85,10 @@ def base_slap(f, xs, dired_out, gres, *, partition, job_name, dry_run=False,
     dired_out = Path(dired_out)
     jobs = []
 
-    assert dired_out.parent.exists()
+    assert dired_out.parent.exists(), f'Parent directory {dired_out.parent} does not exist'
     logs_dired = dired_out / 'logs'
     logs_dired.mkdir(exist_ok=True, parents=True)
+    print(slapmsg('Logs directory:', logs_dired))
 
     metadata = {
         'num_jobs': len(xs),
@@ -164,7 +166,7 @@ def collect(dired_out, strict=False, warn=True, with_paths=False):
 
 if __name__ == '__main__':
     xs = range(10)
-    fn = lambda x: {'wow':x ** 2}
+    fn = lambda x: {'wow':x ** 2, 'such': x ** 3, 'map': x ** 4}
 
     dired_out = Path('/mnt/xfs/home/engstrom/scratch/slapreduce_test')
     if not dired_out.exists():
@@ -183,11 +185,8 @@ if __name__ == '__main__':
 
     # "map"
     slap(fn, [{'x': x} for x in xs], dired_out, gres, partition=partition,
-         job_name=job_name)
-
+         job_name=job_name, block=True)
 
     # "reduce"
     for kw, ret in collect(dired_out):
         print(kw, ret)
-
-    shutil.rmtree(dired_out)
