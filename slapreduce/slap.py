@@ -38,8 +38,8 @@ JAX_LOADER_HANDLER.load = jax_loader
 JAX_LOADER_HANDLER.save = jax_saver
 
 def slapmsg(msg, *args):
-    msg = ' '.join([msg] + list(args))
-    return f'>> slapreduce 👋: {msg}'
+    msg = ' '.join([msg] + list(map(str, args)))
+    return f'👋 slapreduce: {msg}'
 
 def slap(*args, **kwargs):
     def get_env_value(name, is_bool):
@@ -95,17 +95,18 @@ def base_slap(f, xs, dired_out, gres, *, partition, job_name, dry_run=False,
     metadata_file = dired_out / 'metadata.json'
     if metadata_file.exists():
         metadata_on_disk = json.load(open(metadata_file, 'r'))
-        assert metadata_on_disk == metadata
+        msg = f'Metadata mismatch in directory {dired_out}'
+        assert metadata_on_disk == metadata, msg
 
     with open(metadata_file, 'w') as fp:
         json.dump(metadata, fp)
-
-    print('*' * 80)
-    print(slapmsg('Mapping in directory:', dired_out))
+    print('👋' * 80)
+    print(slapmsg('Slapping in directory:', dired_out))
     print(slapmsg('Logs file:', logs_dired))
     print(slapmsg('num jobs: ', len(xs)))
     print(slapmsg('first job:', xs[0]))
     print(slapmsg('last job:', xs[-1]))
+    print('👋' * 80)
     if dry_run:
         sys.exit(0)
 
@@ -181,7 +182,8 @@ if __name__ == '__main__':
     job_name = 'slapreduce_test_v0'
 
     # "map"
-    slap(fn, [{'x': x} for x in xs], dired_out, gres, partition, job_name)
+    slap(fn, [{'x': x} for x in xs], dired_out, gres, partition=partition,
+         job_name=job_name)
 
 
     # "reduce"
