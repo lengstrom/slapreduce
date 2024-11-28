@@ -32,8 +32,7 @@ slap(fn, [{'x': x} for x in xs], dired_out, gres, partition=partition,
 for kw, ret in collect(dired_out):
     print(kw, ret)
 ```
-
-Output:
+returns
 ```
 👋 slapreduce: Slapping in directory: /mnt/xfs/home/engstrom/scratch/slapreduce_test
 👋 slapreduce: Logs file: /mnt/xfs/home/engstrom/scratch/slapreduce_test/logs
