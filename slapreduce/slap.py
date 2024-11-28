@@ -102,13 +102,12 @@ def base_slap(f, xs, dired_out, gres, *, partition, job_name, dry_run=False,
 
     with open(metadata_file, 'w') as fp:
         json.dump(metadata, fp)
-    print('👋' * 80)
+
     print(slapmsg('Slapping in directory:', dired_out))
     print(slapmsg('Logs file:', logs_dired))
     print(slapmsg('num jobs: ', len(xs)))
     print(slapmsg('first job:', xs[0]))
     print(slapmsg('last job:', xs[-1]))
-    print('👋' * 80)
     if dry_run:
         sys.exit(0)
 
@@ -183,10 +182,10 @@ if __name__ == '__main__':
     partition = 'background'
     job_name = 'slapreduce_test_v0'
 
-    # "map"
+    # "map" (can set block to false if you dont want to synchonously wait)
     slap(fn, [{'x': x} for x in xs], dired_out, gres, partition=partition,
-         job_name=job_name, block=True)
+            job_name=job_name, block=True)
 
-    # "reduce"
+    # "reduce" once jobs are done
     for kw, ret in collect(dired_out):
         print(kw, ret)
