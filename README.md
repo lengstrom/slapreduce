@@ -2,6 +2,8 @@
 
 Example:
 ```python
+from slapreduce import slap, collect
+
 xs = range(10)
 fn = lambda x: {'wow':x ** 2, 'such': x ** 3, 'map': x ** 4}
 
