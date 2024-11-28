@@ -5,10 +5,7 @@ Example:
 xs = range(10)
 fn = lambda x: {'wow':x ** 2, 'such': x ** 3, 'map': x ** 4}
 
-dired_out = Path('/mnt/xfs/home/engstrom/scratch/slapreduce_test')
-if not dired_out.exists():
-    dired_out.mkdir()
-
+dired_out = '/mnt/xfs/home/engstrom/scratch/slapreduce_test'
 # define args
 gres = {
     'exclude': r'deep-chungus-[1-6]',
