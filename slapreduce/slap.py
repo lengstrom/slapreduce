@@ -52,9 +52,16 @@ def slap(*args, **kwargs):
             raise ValueError(slapmsg(f'Environment variable {name} is empty'))  
 
         if is_bool:
-            return bool(int(value))
+            try:
+                value = bool(int(value))
+            except:
+                value = value.lower()
+                value = value == 'true'
 
         return value
+
+    if 'DEBUG' in os.environ:
+        kwargs['debug'] = get_env_value('DEBUG', is_bool=True)
 
     if 'NAME' in os.environ:
         kwargs['job_name'] = get_env_value('NAME', is_bool=False)
