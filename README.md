@@ -1,6 +1,11 @@
 # slapreduce: simple mapreduce for slurm
 
-Example:
+### Install:
+```
+pip install -e git@github.com:lengstrom/slapreduce.git
+```
+
+### Example:
 ```python
 from slapreduce import slap, collect
 
