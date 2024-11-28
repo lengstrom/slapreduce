@@ -1,4 +1,4 @@
-# slapreduce: simple mapreduce for slurm
+# slapreduce: mapreduce for slurm
 
 ### Install:
 ```
