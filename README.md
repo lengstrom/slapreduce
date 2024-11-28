@@ -1,11 +1,11 @@
 # 👋 slapreduce: mapreduce for slurm
 
-### Install:
+### install:
 ```
 pip install -e git@github.com:lengstrom/slapreduce.git
 ```
 
-### Example:
+### example:
 ```python
 from slapreduce import slap, collect
 
@@ -51,3 +51,7 @@ Output:
 {'x': 8} {'wow': 64, 'such': 512, 'map': 4096}
 {'x': 9} {'wow': 81, 'such': 729, 'map': 6561}
 ```
+
+### details
+* backed on disk using dill pickles
+* workers are not exclusive, do not launch multiple times for the same `job_name`/`dired_out` combo without cancelling the first set of jobs
